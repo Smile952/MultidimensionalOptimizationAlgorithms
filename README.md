@@ -1,1 +1,1 @@
-# MultidimensionalOptimizationAlgorithms
+﻿для запуска программы неободимо: установить через nuget пакет MathNet.Numerics
