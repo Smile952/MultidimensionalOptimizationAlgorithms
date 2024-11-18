@@ -97,8 +97,8 @@ double[] gaussMethod(Delegate f, double x0, double y0)
 double[] f1_deriv(double x,  double y)
 {
     double[] delta_f1 = [0, 0];
-    delta_f1[0] = -400 * x * (y - Math.Pow(x, 2)) - 2*(1-x);
-    delta_f1[1] = 200 * (y - x*x);
+    delta_f1[0] = 202 * x - 200 * y - 2;
+    delta_f1[1] = -200 * x + 200 * y;
     return delta_f1;
 }
 double[] f2_deriv(double x, double y)
@@ -111,30 +111,27 @@ double[] f2_deriv(double x, double y)
 
 double[] ConjugateGradients(double x, double y)
 {
-    Vector<double> grad0 = Vector<double>.Build.Random(2, 0);
-    Vector<double> grad = Vector<double>.Build.Random(2, 0);
-    Vector<double> s0 = Vector<double>.Build.Random(2);
-    Vector<double> s = Vector<double>.Build.Random(2);
+    Matrix<double> grad0 = Matrix<double>.Build.DenseOfColumnArrays([1, 1]);
+    Matrix<double> grad = Matrix<double>.Build.DenseOfColumnArrays([1, 1]);
+    Matrix<double> s0 = Matrix<double>.Build.DenseOfColumnArrays([1, 1]);
+    Matrix<double> s = Matrix<double>.Build.DenseOfColumnArrays([1, 1]);
+    Matrix<double> gesse = Matrix<double>.Build.DenseOfColumnArrays([[101, -100], [-100, 100]]);
     double lambda = 0;
     double omega = 0;
-
-
+    grad0.SetColumn(0, f1_deriv(x, y));
+    s0 = -grad0;
     do
     {
-        grad.SetValues(f1_deriv(x, y));
-        s = -grad;
-        lambda = (grad * grad) / (grad * s);
-        x += lambda * s0[0];
-        y += lambda * s0[1];
-        omega = (grad * grad) / (grad0 * grad);
-        grad.SetValues(f1_deriv(x, y));
-        s.SetValues([-grad[0] + omega * s0[0], -grad[1] + omega * s0[1]]);
+        lambda = -((grad0.Transpose() * s0)[0, 0] / (s0.Transpose() * (2*gesse) * s0)[0, 0]);
+        x += lambda * s0[0, 0];
+        y += lambda * s0[1, 0];
+
+        grad.SetColumn(0, f1_deriv(x, y));
+        omega = (grad.Transpose() * gesse * s0)[0, 0] / (s0.Transpose() * gesse * s0)[0, 0];
+        s = -grad + omega * s0;
+        Console.WriteLine(s);
         s0 = s;
         grad0 = grad;
-    } while (s0[0] > eps || s0[1] > eps);
+    } while (Math.Abs(s[0, 0]) > eps || Math.Abs(s[1, 0]) > eps);
     return [x, y];
 }
-
-double[] ans = ConjugateGradients(10, 0);
-Console.WriteLine(ans[0].ToString() + " " + ans[1].ToString());
-Console.WriteLine(f1(ans[0], ans[1]));
