@@ -14,84 +14,22 @@ double f2(double x, double y)
 {
     return Math.Exp(-Math.Pow(x - 3, 2) - Math.Pow((y - 1) / 3, 2)) + 2*Math.Exp(-Math.Pow((x - 2) / 2, 2) - Math.Pow(y - 2, 2));
 }
-double[] gaussMethod(Delegate f, double x0, double y0)
+double[] gaussMethod(Func<double, double, double> f, double x0, double y0)
 {
-    double dx = eps / 2;
-    double dy = dx;
-
-    double z0 = 0;
-    double z0_global = 0;
-    double z = (double)f.DynamicInvoke([x0, y0]);
+    double x = 0;
+    double y = 0;
+    double[] grad = f1_deriv(x0, y0);
     do
     {
-        z0_global = f1(x0, y0);
-        while ((z - z0) > 0)
-        {
-            double z1_x = (double)f.DynamicInvoke(x0 + dx, y0);
-            double z2_x = (double)f.DynamicInvoke(x0 - dx, y0);
-            
-            if(z > z2_x && z > z1_x)
-            {
-                if(z1_x > z2_x)
-                {
-                    x0 += eps;
-                    num_iter++;
-                }
-                else
-                {
-                    x0 -= eps;
-                    num_iter++;
-                }
-            }
-            else if (z > z1_x)
-            {
-                x0 += eps;
-                num_iter++;
-            }
-            else if (z > z2_x)
-            {
-                x0 -= eps;
-                num_iter++;
-            }
-            z0 = z;
-        }
-        z0 = 0;
-        z = (double)f.DynamicInvoke(x0, y0);
-        while ((z - z0) > 0)
-        {
-            double z1_y = f1(x0, y0 + dy);
-            double z2_y = f1(x0, y0 - dy);
+        y0 = y;
+        x0 = x;
+        grad = f1_deriv(x, y);
+        x -= eps/10 * (-grad[0]);
+        grad = f1_deriv(x, y);
+        y -= eps/10 * (-grad[1]);
+    } while (Math.Abs(x - x0) > eps || Math.Abs(y - y0) > eps);
 
-            if (z > z2_y && z > z1_y)
-            {
-                if (z1_y > z2_y)
-                {
-                    y0 += eps;
-                    num_iter++;
-                }
-                else
-                {
-                    y0 -= eps;
-                    num_iter++; 
-                }
-            }
-            else if (z > z1_y)
-            {
-                y0 += eps;
-                num_iter++;
-            }
-            else if (z > z2_y)
-            {
-                y0 -= eps;
-                num_iter++;
-            }
-            
-            z0 = z;
-        }
-        z = (double)f.DynamicInvoke(x0, y0);
-    } while ((z - z0_global) > eps);
-
-    return [x0, y0, z];
+    return [x, y];
 }
 
 double[] f1_deriv(double x,  double y)
@@ -135,3 +73,7 @@ double[] ConjugateGradients(double x, double y)
     } while (Math.Abs(s[0, 0]) > eps || Math.Abs(s[1, 0]) > eps);
     return [x, y];
 }
+
+double[] ans = gaussMethod(f1, 10, 0);
+Console.WriteLine(ans[0].ToString() + " "+ ans[1].ToString());
+Console.WriteLine(f1(ans[0], ans[1])); 
