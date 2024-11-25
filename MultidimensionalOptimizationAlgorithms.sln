@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultidimensionalOptimizationAlgorithms", "MultidimensionalOptimizationAlgorithms\MultidimensionalOptimizationAlgorithms.csproj", "{F450C196-D94C-4DC9-9515-5DFE4E158879}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultidimensionalSearch_Visual", "MultidimensionalSearch_Visual\MultidimensionalSearch_Visual.csproj", "{33C77472-A030-4940-97E1-835879199C47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultidimensionalSearch_Visual", "MultidimensionalSearch_Visual\MultidimensionalSearch_Visual.csproj", "{33C77472-A030-4940-97E1-835879199C47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F450C196-D94C-4DC9-9515-5DFE4E158879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F450C196-D94C-4DC9-9515-5DFE4E158879}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F450C196-D94C-4DC9-9515-5DFE4E158879}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F450C196-D94C-4DC9-9515-5DFE4E158879}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33C77472-A030-4940-97E1-835879199C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33C77472-A030-4940-97E1-835879199C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33C77472-A030-4940-97E1-835879199C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
